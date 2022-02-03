@@ -3,17 +3,10 @@
 
 let tiroRuleta = () => {
     let numeroRuleta = Math.floor(Math.random()*37) ;
-    console.log(numeroRuleta);
-    if (numeroRuleta >= 1 && numeroRuleta <=18) {
-        return "negro";
-    };
-    if (numeroRuleta >= 19 && numeroRuleta <=36) {
-        return "rojo";
-    };
-    if (numeroRuleta == 0) {
-        return "verde";
-    }
+    return arrayRuleta[numeroRuleta];
 }
+
+let arrayRuleta = ["verde","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo" ];
 
 let eleccionJugador = () => {
     let eleccion = prompt('Por favor elija un color, ya sea "rojo" o "negro"').toLowerCase();
