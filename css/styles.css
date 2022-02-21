@@ -1,0 +1,9 @@
+.nuevoCliente {
+    border: solid 4px royalblue;
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    justify-content: space-between ;
+    align-items: center;
+    height: 4rem;
+}

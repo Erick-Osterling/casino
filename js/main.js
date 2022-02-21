@@ -1,5 +1,5 @@
-// este es un casino virtual. Lo primero que haremos será comprobar que el 
-// jugador es mayor de edad con un condicional. 
+
+// Funciones 
 
 let tiroRuleta = () => {
     let numeroRuleta = Math.floor(Math.random()*37);
@@ -9,25 +9,77 @@ let tiroRuleta = () => {
     return color;
 }
 
-let arrayRuleta = ["verde","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo" ];
-
 let eleccionJugador = () => {
     let eleccion = prompt('Por favor elija un color, ya sea "rojo" o "negro" o "verde"').toLowerCase();
     return eleccion;
 }
 
-let edad = prompt("Por favor indique qué edad tiene:");
+// declaración de variables arrays
+const recordColor = [];
+const arrayRuleta = ["verde","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo" ];
+const claseCliente = ["estandar", "premium","elite"];
+
+class Cliente {
+    constructor (id, nombre, dni, telefono){
+        this.id = id;
+        this.nombre = nombre;
+        this.dni = dni;
+        this.telefono = telefono; 
+        this.creditos = 0;
+        this.status = claseCliente[0];   
+    }
+    // Métodos
+}
+
+
+
+
+const clientes = []; 
+clientes.push(new Cliente(1, "Erick", 41170499, 946279345));
+clientes.push(new Cliente(2, "Kevin", 31170500, 936279346));
+clientes.push(new Cliente(3, "Oscar", 21170501, 926279347));
+clientes.push(new Cliente(4, "Pamela", 51170501, 916279347));
+clientes.push(new Cliente(5, "Alejandra", 61170501, 986279347));
+
+let regCliente = document.getElementById("formRegCliente");
+
+console.log(regCliente);
+regCliente.onsubmit = (e) => {
+    e.preventDefault();
+    const inputs = regCliente.children;
+    clientes.push(new Cliente(clientes.length+1, inputs[0].value, inputs[1].value, inputs[2].value));
+    console.log(clientes);
+    regCliente.reset();
+}
+
+
+// usar find para saludar o pedir al cliente que se inscriba
+// primero debería usar un map, para obtener los ID en un subarray más pequeño
+
+
+// declaración de variables
+// let edad = prompt("Por favor indique qué edad tiene:");
 let numeroTurnos = 0;
 let creditos = 0;
 let contadorGanadas = 0;
 let apuesta = 0;
 let creditosIniciales = 0;
-const recordColor = [];
+let montoGanado = 0;
+
+
+// declaración de variables asignados a elementos del DOM
 let displayCreditos = document.getElementById("creditos");
 
+// creando el nodo tipo elemento en donde se mostrará los mensajes
+let mensajesJuego = document.createElement("div");
 
+
+/*
 if (edad >= 18) {
-    alert ("bienvenido al casino más justo del mundo!")
+    // alert ("bienvenido al casino más justo del mundo!")
+    mensajesJuego.innerText = "bienvenido al casino más justo del mundo!";
+    document.body.append(mensajesJuego);
+    
 
     numeroTurnos = prompt("¿Cuantos turnos desea jugar?")*1;
     creditos = prompt("por favor introduzca los créditos que posee. Esta cantidad debe ser por lo menos igual al número de jugadas")*1;
@@ -38,6 +90,8 @@ if (edad >= 18) {
     } else {
 
         alert ("Que empieze el juego!");
+        
+
 
         for (let i = 0; i < numeroTurnos ; i++) {
             apuesta = prompt("¿Cuantos créditos desea apostar?")*1;
@@ -78,10 +132,5 @@ if (edad >= 18) {
 } else {
     alert (`Lamentamos comunicarle que usted es menor de edad. Lo esperamos de vuelta en ${18-edad} años`);
 }
+*/
 
-
-
-
-
-
-let montoGanado = 0;
