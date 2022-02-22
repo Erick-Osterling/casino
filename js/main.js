@@ -171,12 +171,12 @@ let mensajesJuego = document.createElement("div");
         let creditosIniciales = parseInt(clientes[indexClienteActual].creditos);
         if (colorJugador == ruleteada) {
             clientes[indexClienteActual].creditos = (creditosIniciales*1) + (montoApuesta*1);
-            resultadoApuesta.innerText = `Ganaste! Apostaste ${color} y salio ${ruleteada}. 
+            resultadoApuesta.innerText = `Ganaste! Apostaste ${colorJugador} y salio ${ruleteada}. 
             Ahora tienes ${clientes[indexClienteActual].creditos} créditos`;
             
         } else {
             clientes[indexClienteActual].creditos = (creditosIniciales*1) - (montoApuesta*1);
-            resultadoApuesta.innerText = `Perdiste! Apostaste ${color} y salio ${ruleteada}. 
+            resultadoApuesta.innerText = `Perdiste! Apostaste ${colorJugador} y salio ${ruleteada}. 
             Te quedan ${clientes[indexClienteActual].creditos} créditos`;
         }
     }
