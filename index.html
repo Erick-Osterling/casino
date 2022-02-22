@@ -21,8 +21,32 @@
             <input type="submit">
         </form>
     </div>
-    <p>Créditos disponibles:</p>
-    <p id="creditos"></p>
+    <div>Si usted ya es cliente acceda con su DNI:
+        <input id="dniParaBuscar" type="text" placeholder="Ingrese su DNI">
+        <button id="busquedaCliente">Entrar</button>
+        <div id="saludo"></div>
+    </div>
+
+    <div>¿Quieres comprar créditos?
+        <input id="cantidadCreditos" type="number" placeholder="Ingresa cuantos creditos quieres">
+        <button id="btnComprarCreditos">Comprar</button>
+        <h2 id="avisoCompra"></h2>
+
+    </div>
+
+    <div id="eleccionColor" class="eleccion">Por favor eliga el color y cantidad de créditos que desea apostar.
+        <button id="btnRojo">Rojo</button>
+        <button id="btnNegro">Negro</button>
+        <button id="btnVerde">verde</button>
+        <div>Color elegido:</div>
+        <div id="preseleccion"></div>
+        <input id="montoApuesta" type="number" placeholder="Pon tu apuesta acá">
+        <button id="btnJugar">Establecer Apuesta</button>
+        <h2 id="apuestaFinal"></h2>
+    </div>
+    <button id="lanzar">Lanza Ruleta</button>
+    <h2 id="resultadoApuesta"></h2>
+
     
 
     <script src="js/main.js" defer></script>
