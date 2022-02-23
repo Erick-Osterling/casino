@@ -11,8 +11,13 @@ let indexClienteActual = 0;
 let colorJugador = "";
 let montoApuesta = 0;
 
+// declaración de variables arrays
+const recordColor = [];
+const arrayRuleta = ["verde","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo" ];
+const claseCliente = ["estandar", "premium","elite"];
+
 // Funciones 
-let tiroRuleta = () => {
+const tiroRuleta = () => {
     let numeroRuleta = Math.floor(Math.random()*37);
     color = arrayRuleta[numeroRuleta]
     recordColor.push(color);
@@ -21,57 +26,49 @@ let tiroRuleta = () => {
 
 let apuestaFinal = document.getElementById("apuestaFinal");
 
-let eleccionJugador = () => {
-
-    if (preseleccion.innerText && 
-        document.getElementById("montoApuesta").value &&
-        clientes[indexClienteActual].creditos >= document.getElementById("montoApuesta").value ){
-            let eleccion = preseleccion.innerText.toLocaleLowerCase();
-    montoApuesta = document.getElementById("montoApuesta").value;
-    apuestaFinal.innerText = `Apostó a ${eleccion} la cantidad de ${montoApuesta} créditos`;
-    console.log(montoApuesta);
-    return eleccion;
-    } else { 
-        apuestaFinal.innerText = "O no te alcanzan los créditos, o no elegiste color, o no pusiste apuesta."
-    }
-}
 
 // elección de color con botones de colores
+const preseleccion = document.getElementById("preseleccion");
+
 const btnRojo = document.getElementById("btnRojo");
 const btnNegro = document.getElementById("btnNegro");
 const btnVerde = document.getElementById("btnVerde");
-btnRojo.addEventListener("click",eleccionRojo);
-btnNegro.addEventListener("click",eleccionNegro);
-btnVerde.addEventListener("click",eleccionVerde);
 
-const preseleccion = document.getElementById("preseleccion");
-
-function eleccionRojo() {
+btnRojo.addEventListener("click",() => {
     preseleccion.innerText = "Rojo";
-    preseleccion.style.color = "red"
+    preseleccion.style.color = "red";
     preseleccion.style.backgroundColor = "red";
     colorJugador = "rojo";  
-}
-function eleccionNegro() {
+});
+btnNegro.addEventListener("click",()=>{
     preseleccion.innerText = "Negro";
     preseleccion.style.color = "black"
     preseleccion.style.backgroundColor = "black";
     colorJugador = "negro";
-}
-function eleccionVerde() {
+});
+btnVerde.addEventListener("click",()=> {
     preseleccion.innerText = "Verde";
     preseleccion.style.color = "green"
     preseleccion.style.backgroundColor = "green";
     colorJugador = "verde";
-}
+});
 
 const btnJugar = document.getElementById("btnJugar");
 btnJugar.addEventListener("click",eleccionJugador);
 
-// declaración de variables arrays
-const recordColor = [];
-const arrayRuleta = ["verde","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo" ];
-const claseCliente = ["estandar", "premium","elite"];
+function eleccionJugador() {
+
+    if (preseleccion.innerText &&
+        document.getElementById("montoApuesta").value &&
+        clientes[indexClienteActual].creditos >= document.getElementById("montoApuesta").value) {
+        let eleccion = preseleccion.innerText.toLocaleLowerCase();
+        montoApuesta = document.getElementById("montoApuesta").value;
+        apuestaFinal.innerText = `Apostó a ${eleccion} la cantidad de ${montoApuesta} créditos`;
+        return eleccion;
+    } else {
+        apuestaFinal.innerText = "O no te alcanzan los créditos, o no elegiste color, o no pusiste apuesta.";
+    }
+}
 
 class Cliente {
     constructor (id, nombre, dni, telefono){
@@ -86,13 +83,10 @@ class Cliente {
 }
 
 const clientes = []; 
-clientes.push(new Cliente(1, "Erick", 41170499, 946279345));
-clientes.push(new Cliente(2, "Kevin", 41170498, 936279346));
-clientes.push(new Cliente(3, "Oscar", 41170497, 926279347));
-clientes.push(new Cliente(4, "Pamela", 41170496, 916279347));
-clientes.push(new Cliente(5, "Alejandra", 41170495, 986279347));
+// clientes.push(new Cliente(1, "Erick", "41170499", "946279345"));
+// clientes.push(new Cliente(2, "Kevin", "41170498", "936279346"));
 
-localStorage.setItem("listaClientes",JSON.stringify(clientes));
+
 
 // Registar un nuevo cliente
 let regCliente = document.getElementById("formRegCliente");
@@ -103,6 +97,15 @@ regCliente.onsubmit = (e) => {
     console.log(clientes);
     localStorage.setItem("listaClientes",JSON.stringify(clientes));
     regCliente.reset();
+}
+
+if ("listaClientes" in localStorage) {
+    const clientesGuardados = JSON.parse(localStorage.getItem("listaClientes"));
+    console.log(clientesGuardados);
+    for (const literal of clientesGuardados) {
+        clientes.push(new Cliente(literal.id, literal.nombre, literal.dni, literal.telefono));
+        console.log(clientes);
+    }
 }
 
 // buscar a clientes existentes
@@ -119,7 +122,6 @@ function buscarCliente () {
         if (clienteActual) {
             saludo.innerText = `Bienvenido: ${clienteActual.nombre}, dispones de ${clienteActual.creditos} para jugar`;
             indexClienteActual = clienteActual.id*1 - 1;
-            console.log(indexClienteActual);
         } else {
             saludo.innerText = "Aun no eres cliente. Por favor regístrate" ;
         }
@@ -129,9 +131,7 @@ function buscarCliente () {
     } 
 }
 
-
 // comprar creditos
-
 const btnCompra = document.getElementById("btnComprarCreditos");
 const avisoCompra = document.getElementById("avisoCompra");
 
@@ -145,21 +145,11 @@ function comprarCreditos() {
         avisoCompra.innerText = `Créditos disponibles para iniciar apuestas: ${clientes[indexClienteActual].creditos}`;
     } else {
         avisoCompra.innerText = "Por favor ingresa una cantidad para comprar"
-    } 
-       
+    }    
 }
-
-
-
-
-// declaración de variables asignados a elementos del DOM
-let displayCreditos = document.getElementById("creditos");
-
-// creando el nodo tipo elemento en donde se mostrará los mensajes
-let mensajesJuego = document.createElement("div");
     
-    creditos = clientes[indexClienteActual].creditos;
-    console.log(creditos);
+    // creditos = clientes[indexClienteActual].creditos;
+    // console.log(creditos);
 
 
     // Evento de lanzar ruleta y enfrentar resultados
