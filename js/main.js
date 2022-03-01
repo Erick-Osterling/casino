@@ -57,27 +57,45 @@ const btnJugar = document.getElementById("btnJugar");
 btnJugar.addEventListener("click",eleccionJugador);
 
 function eleccionJugador() {
-
+    let montoApuesta = document.getElementById("montoApuesta").value;
     if (preseleccion.innerText &&
         document.getElementById("montoApuesta").value &&
-        clientes[indexClienteActual].creditos >= document.getElementById("montoApuesta").value) {
+        clientes[indexClienteActual].creditos >= montoApuesta) {
         let eleccion = preseleccion.innerText.toLocaleLowerCase();
         montoApuesta = document.getElementById("montoApuesta").value;
-        apuestaFinal.innerText = `Apostó a ${eleccion} la cantidad de ${montoApuesta} créditos`;
+        let apuestaActual = `${montoApuesta} créditos a ${eleccion}`;
+        Swal.fire({
+            title: `Por favor confirme ${apuestaActual}`,
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            denyButtonText: `Don't save`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire('Apuesta confirmada!', `${apuestaActual}`, 'success')
+            } else if (result.isDenied) {
+              Swal.fire('Changes are not saved', '', 'info')
+            }
+          })
+
+        apuestaFinal.innerText = `Apostó ${montoApuesta} créditos a ${eleccion}`;
         return eleccion;
     } else {
         apuestaFinal.innerText = "O no te alcanzan los créditos, o no elegiste color, o no pusiste apuesta.";
     }
+
+    
 }
 
 class Cliente {
-    constructor (id, nombre, dni, telefono){
+    constructor (id, nombre, dni, telefono, creditos, status){
         this.id = id;
         this.nombre = nombre;
         this.dni = dni;
         this.telefono = telefono; 
-        this.creditos = 0;
-        this.status = claseCliente[0];   
+        this.creditos = creditos || 0;
+        this.status = status || claseCliente[0];   
     }
     // Métodos
 }
@@ -103,9 +121,9 @@ if ("listaClientes" in localStorage) {
     const clientesGuardados = JSON.parse(localStorage.getItem("listaClientes"));
     console.log(clientesGuardados);
     for (const literal of clientesGuardados) {
-        clientes.push(new Cliente(literal.id, literal.nombre, literal.dni, literal.telefono));
-        console.log(clientes);
+        clientes.push(new Cliente(literal.id, literal.nombre, literal.dni, literal.telefono, literal.creditos, literal.status));
     }
+    console.log(clientes);
 }
 
 // buscar a clientes existentes
@@ -123,11 +141,16 @@ function buscarCliente () {
             saludo.innerText = `Bienvenido: ${clienteActual.nombre}, dispones de ${clienteActual.creditos} para jugar`;
             indexClienteActual = clienteActual.id*1 - 1;
         } else {
-            saludo.innerText = "Aun no eres cliente. Por favor regístrate" ;
+            Swal.fire('No apareces en la base de datos. Por favor regístrate');
+
         }
         
     } else {
-        saludo.innerText = "Ingresa tu DNI. No hay nada que buscar."
+        Swal.fire(
+            'Error',
+            'Ingresa un DNI',
+            'error'
+          )
     } 
 }
 
@@ -140,11 +163,21 @@ btnCompra.addEventListener("click", comprarCreditos);
 function comprarCreditos() {
     let inputCompra = document.getElementById("cantidadCreditos").value*1;
     if (inputCompra) {
-        let creditosActuales = clientes[indexClienteActual].creditos;
+        // let creditosActuales = clientes[indexClienteActual].creditos;
         clientes[indexClienteActual].creditos += inputCompra;
-        avisoCompra.innerText = `Créditos disponibles para iniciar apuestas: ${clientes[indexClienteActual].creditos}`;
+        localStorage.setItem("listaClientes",JSON.stringify(clientes));
+        Swal.fire({
+            title: 'Excelente!',
+            text: `Su compra por ${inputCompra} créditos ha sido procesada`,
+            imageUrl: 'images/ruleta2.jpg',
+            imageWidth: 400,
+            imageHeight: 200,
+            imageAlt: 'Ruleta de casino',
+          })
+        avisoCompra.innerText = `Usted tiene ${clientes[indexClienteActual].creditos} créditos disponibles`;
+        console.log(clientes);
     } else {
-        avisoCompra.innerText = "Por favor ingresa una cantidad para comprar"
+        Swal.fire('Por favor ingrese la cantidad de créditos que desea comprar')
     }    
 }
     

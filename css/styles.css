@@ -1,15 +1,23 @@
 .nuevoCliente {
     border: solid 4px royalblue;
     display: flex;
-    padding: 1rem;
     flex-direction: column;
     justify-content: space-between ;
     align-items: center;
-    height: 4rem;
+    
 }
 
 #eleccionColor {
     border: purple 2px solid;
+}
+
+#parteSuperior {
+    display: flex;
+    border: solid red 4px;
+}
+
+#consolaJugador {
+    border: solid darkblue 2px;
 }
 
 #preseleccion {
@@ -20,4 +28,12 @@
 
 #imgRuleta {
     height: 20rem;
+}
+
+#saludo {
+    border: solid greenyellow 3px;
+}
+
+#lanzar {
+    
 }
