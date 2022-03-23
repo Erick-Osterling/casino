@@ -16,6 +16,23 @@ const recordColor = [];
 const arrayRuleta = ["verde","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo" ];
 const claseCliente = ["estandar", "premium","elite"];
 
+const listaPaises = document.getElementById("listaPaises");    
+fetch("https://restcountries.com/v3.1/all")
+    .then(resp => resp.json())
+    .then((paises) => {
+        console.log(paises);
+        listaPaises.innerHTML = `<h4>Pais</h4>
+                        <select id="paisElegido"></select>`
+        const paisElegido = document.getElementById("paisElegido");
+        for (const pais of paises) {
+            paisElegido.innerHTML += `<option>${pais.name.common}</option>`
+        }
+
+    }) 
+    .catch((mensaje) => console.log(mensaje));
+    
+    
+
 // Funciones 
 const tiroRuleta = () => {
     let numeroRuleta = Math.floor(Math.random()*37);
@@ -84,14 +101,14 @@ function eleccionJugador() {
     } else {
         apuestaFinal.innerText = "O no te alcanzan los créditos, o no elegiste color, o no pusiste apuesta.";
     }
-
-    
+  
 }
 
 class Cliente {
-    constructor (id, nombre, dni, telefono, creditos, status){
+    constructor (id, nombre,pais, dni, telefono, creditos, status){
         this.id = id;
         this.nombre = nombre;
+        this.pais = pais;
         this.dni = dni;
         this.telefono = telefono; 
         this.creditos = creditos || 0;
@@ -101,9 +118,6 @@ class Cliente {
 }
 
 const clientes = []; 
-// clientes.push(new Cliente(1, "Erick", "41170499", "946279345"));
-// clientes.push(new Cliente(2, "Kevin", "41170498", "936279346"));
-
 
 
 // Registar un nuevo cliente
@@ -119,11 +133,9 @@ regCliente.onsubmit = (e) => {
 
 if ("listaClientes" in localStorage) {
     const clientesGuardados = JSON.parse(localStorage.getItem("listaClientes"));
-    console.log(clientesGuardados);
     for (const literal of clientesGuardados) {
         clientes.push(new Cliente(literal.id, literal.nombre, literal.dni, literal.telefono, literal.creditos, literal.status));
     }
-    console.log(clientes);
 }
 
 // buscar a clientes existentes
@@ -175,6 +187,7 @@ function comprarCreditos() {
             imageAlt: 'Ruleta de casino',
           })
         avisoCompra.innerText = `Usted tiene ${clientes[indexClienteActual].creditos} créditos disponibles`;
+        saludo.innerText = `Bienvenido: ${clienteActual.nombre}, dispones de ${clientes[indexClienteActual].creditos} para jugar`;
         console.log(clientes);
     } else {
         Swal.fire('Por favor ingrese la cantidad de créditos que desea comprar')
